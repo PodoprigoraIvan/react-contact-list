@@ -8,6 +8,10 @@ export const useValidation = (
 ): [string, (value: string) => void, string, boolean] => {
   const [value, setValue] = useState<string>(initialValue);
   const [error, setError] = useState<string>(" ");
+
+  const nameRegex = /^[a-zA-Z]*$/;
+  const phoneRegex = /^(?:\+|\d)\d{4,}$/;
+
   const validationResult = useMemo(() => {
     if (value != "") {
       switch (validationType) {
@@ -16,14 +20,14 @@ export const useValidation = (
             setError("Name must contain at least 3 letters");
             return false;
           }
-          if (!/^[a-zA-Z]*$/.test(value)) {
+          if (!nameRegex.test(value)) {
             setError("Name must contain only latin letters");
             return false;
           }
           setError("");
           return true;
         case "phone":
-          if (!/^(?:\+|\d)\d{4,}$/.test(value)) {
+          if (!phoneRegex.test(value)) {
             setError("Invalid phone number");
             return false;
           }

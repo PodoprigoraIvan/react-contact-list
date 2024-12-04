@@ -30,9 +30,9 @@ const isDuplicate = (contactsList: ContactsList, phone: string) => {
 };
 
 const getInitialState: () => ContactsState = () => {
-  let storageValue: string | null = localStorage.getItem("contactsList");
-  let contactsState: any = { contactsList: {}, lastModificationError: "" };
-  if (storageValue == null) {
+  const storageValue: string | null = localStorage.getItem("contactsList");
+  let contactsState: ContactsState = { contactsList: {}, lastModificationError: "" };
+  if (storageValue === null) {
     for (let i = 0; i < 26; i++) {
       contactsState.contactsList[String.fromCharCode("A".charCodeAt(0) + i)] = []; // letter
     }
@@ -40,7 +40,6 @@ const getInitialState: () => ContactsState = () => {
   } else {
     contactsState.contactsList = JSON.parse(storageValue);
   }
-  contactsState.lastModificationError = "";
   return contactsState;
 };
 
@@ -50,12 +49,13 @@ export const contactsSlice = createSlice({
   reducers: {
     addContact: (state, action: PayloadAction<Contact>) => {
       const newContact: Contact = action.payload;
-      if (isDuplicate(state.contactsList, newContact.phone) === false) {
-        state.contactsList[newContact.name[0].toUpperCase()].push(newContact);
-        state.lastModificationError = "";
-      } else {
+      if (isDuplicate(state.contactsList, newContact.phone)) {
         state.lastModificationError = "Cant add equal pnone numbers";
+        return;
       }
+      const newContactFirstLetter = newContact.name[0].toUpperCase();
+      state.contactsList[newContactFirstLetter].push(newContact);
+      state.lastModificationError = "";
     },
 
     deleteContact: (state, action: PayloadAction<Contact>) => {
@@ -93,21 +93,20 @@ export const contactsSlice = createSlice({
       const foundIndex = state.contactsList[firstLetter].findIndex((contact) =>
         isEqualContacts(contact, contactToEdit)
       );
-      if (foundIndex == -1) {
+      if (foundIndex === -1) {
         state.lastModificationError = "Cant find contact to edit";
-      } else {
-        let newFirstLetter = newContactValues.name[0].toUpperCase();
-        if (firstLetter === newFirstLetter) {
-          state.contactsList[firstLetter][foundIndex] = newContactValues;
-        } else {
-          state.contactsList[firstLetter] = state.contactsList[firstLetter].filter(
-            (contact) => !isEqualContacts(contact, contactToEdit)
-          );
-          state.contactsList[newFirstLetter].push(newContactValues);
-        }
-
-        state.lastModificationError = "";
+        return;
       }
+      const newFirstLetter = newContactValues.name[0].toUpperCase();
+      if (firstLetter === newFirstLetter) {
+        state.contactsList[firstLetter][foundIndex] = newContactValues;
+      } else {
+        state.contactsList[firstLetter] = state.contactsList[firstLetter].filter(
+          (contact) => !isEqualContacts(contact, contactToEdit)
+        );
+        state.contactsList[newFirstLetter].push(newContactValues);
+      }
+      state.lastModificationError = "";
     },
   },
 });
