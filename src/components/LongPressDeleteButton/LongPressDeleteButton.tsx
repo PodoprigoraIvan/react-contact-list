@@ -35,11 +35,11 @@ const LongPressDeleteButton: FC<LongPressDeleteButtonProps> = ({ onLongPress }) 
 
   return (
     <IconButton
+      className="long-press-btn"
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}
       onMouseLeave={handleMouseLeave}
       color={isPressing ? "error" : "secondary"}
-      style={{ transition: "all 0.7s" }}
     >
       <DeleteIcon />
     </IconButton>
