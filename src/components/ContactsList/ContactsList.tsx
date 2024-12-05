@@ -1,11 +1,12 @@
 import { FC, useContext } from "react";
-import { useAppDispatch } from "../store/hooks";
-import { deleteContactThunk } from "../store/contactsSlice";
+import { useAppDispatch } from "../../store/hooks";
+import { deleteContactThunk } from "../../store/contactsSlice";
 import { Box, IconButton, List, ListItem, ListItemText, Typography } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
-import type { Contact } from "../store/contactsSlice";
-import { EditDialogContext } from "../App";
-import LongPressDeleteButton from "./LongPressDeleteButton";
+import type { Contact } from "../../store/contactsSlice";
+import { EditDialogContext } from "../../App";
+import LongPressDeleteButton from "../LongPressDeleteButton/LongPressDeleteButton";
+import "./ContactsList.scss";
 
 type ContactsListProps = {
   contactsList: Contact[];
@@ -14,19 +15,15 @@ type ContactsListProps = {
 const ContactsList: FC<ContactsListProps> = ({ contactsList }) => {
   const dispatch = useAppDispatch();
   const openEditDialog = useContext(EditDialogContext);
+
   const handleDelete = (contact: Contact) => {
     dispatch(deleteContactThunk(contact));
   };
+
   return (
     <List>
-      {contactsList.map((contact, index) => (
-        <ListItem
-          key={contact.phone}
-          style={{
-            backgroundColor: index % 2 === 0 ? "transparent" : "#f5f5f5",
-            justifyContent: "space-between",
-          }}
-        >
+      {contactsList.map((contact) => (
+        <ListItem className="contact-list-item" key={contact.phone}>
           <ListItemText
             primary={<strong>Name: {contact.name}</strong>}
             secondary={

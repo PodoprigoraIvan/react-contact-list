@@ -1,0 +1,12 @@
+.contact-input-root {
+  display: flex;
+  flex-direction: column;
+  &__buttons-wrapper {
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: space-around;
+  }
+  &__alert {
+    margin-bottom: 1.5rem;
+  }
+}

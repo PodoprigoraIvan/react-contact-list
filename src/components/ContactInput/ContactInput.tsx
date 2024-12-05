@@ -1,12 +1,13 @@
 import { Alert, Box, Button, Container, Fade, TextField } from "@mui/material";
 import { FC, useState } from "react";
-import { useValidation } from "../hooks/useValidation";
-import { useTemporaryMessage } from "../hooks/useTemporaryMessage";
+import { useValidation } from "../../hooks/useValidation";
+import { useTemporaryMessage } from "../../hooks/useTemporaryMessage";
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
-import { useAppDispatch } from "../store/hooks";
-import { addContactThunk, editContactThunk } from "../store/contactsSlice";
-import type { Contact } from "../store/contactsSlice";
+import { useAppDispatch } from "../../store/hooks";
+import { addContactThunk, editContactThunk } from "../../store/contactsSlice";
+import type { Contact } from "../../store/contactsSlice";
+import "./ContactInput.scss";
 
 type ContactInputProps = {
   type: "add" | "edit";
@@ -54,22 +55,22 @@ const ContactInput: FC<ContactInputProps> = ({ type, prevContact }) => {
     }
     if (modificationResultError) {
       setErrorMessage(modificationResultError);
-    } else {
-      setErrorMessage("");
-      switch (type) {
-        case "add":
-          setSuccessMessage("Successfully added!");
-          break;
-        case "edit":
-          setSuccessMessage("Successfully edited!");
-          break;
-      }
+      return;
+    }
+    setErrorMessage("");
+    switch (type) {
+      case "add":
+        setSuccessMessage("Successfully added!");
+        break;
+      case "edit":
+        setSuccessMessage("Successfully edited!");
+        break;
     }
   };
 
   return (
     <>
-      <Container sx={{ display: "flex", flexFlow: "column" }}>
+      <Container className="contact-input-root">
         <TextField
           error={!nameValidationResult}
           helperText={nameError || " "}
@@ -93,8 +94,8 @@ const ContactInput: FC<ContactInputProps> = ({ type, prevContact }) => {
           onChange={(e) => setPhone(e.target.value)}
           variant="outlined"
         />
-        <Box sx={{ marginBottom: 3 }}>
-          <Button variant="contained" sx={{ marginRight: 3 }} onClick={clearFields}>
+        <Box className="contact-input-root__buttons-wrapper">
+          <Button variant="contained" onClick={clearFields}>
             Clear fields
           </Button>
           <Button
@@ -107,7 +108,7 @@ const ContactInput: FC<ContactInputProps> = ({ type, prevContact }) => {
           </Button>
         </Box>
         <Fade in={errorMessage || successMessage ? true : false}>
-          <Alert sx={{ marginBottom: 3 }} severity={errorMessage === "" ? "success" : "warning"}>
+          <Alert className="contact-input-root__alert" severity={errorMessage === "" ? "success" : "warning"}>
             {errorMessage === "" ? successMessage : errorMessage}
           </Alert>
         </Fade>

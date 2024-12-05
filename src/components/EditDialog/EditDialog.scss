@@ -1,0 +1,15 @@
+.edit-dialog {
+  &__dialog-title {
+    margin: 0;
+    padding: 1rem;
+  }
+  &__close-btn.MuiIconButton-root {
+    position: absolute;
+    right: 0.5rem;
+    top: 0.75rem;
+  }
+}
+
+.MuiDialogContent-root {
+  width: 25rem;
+}

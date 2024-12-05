@@ -1,11 +1,11 @@
-import ContactInput from "./components/ContactInput";
-import ContactsMainDisplay from "./components/ContactsMainDisplay";
+import ContactInput from "./components/ContactInput/ContactInput";
+import ContactsMainDisplay from "./components/ContactsMainDisplay/ContactsMainDisplay";
 import { createContext, useCallback, useState } from "react";
 import { Contact } from "./store/contactsSlice";
-import EditDialog from "./components/EditDialog";
+import EditDialog from "./components/EditDialog/EditDialog";
 import { BrowserRouter, Link, Route, Routes, useLocation } from "react-router";
 import { Box, Tab, Tabs } from "@mui/material";
-import ContactsSearch from "./components/ContactsSearch";
+import ContactsSearch from "./components/ContactsSearch/ContactsSearch";
 
 export const EditDialogContext = createContext<(contact: Contact) => void>((_contact: Contact) => {});
 

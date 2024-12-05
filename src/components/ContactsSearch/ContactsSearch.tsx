@@ -1,14 +1,16 @@
-import { useAppSelector } from "../store/hooks";
-import { Contact, selectAllContacts } from "../store/contactsSlice";
-import ContactsList from "./ContactsList";
+import { useAppSelector } from "../../store/hooks";
+import { Contact, selectAllContacts } from "../../store/contactsSlice";
+import ContactsList from "../ContactsList/ContactsList";
 import { Button, Container, TextField } from "@mui/material";
 import { useState } from "react";
+import "./ContactsSearch.scss";
 
 const ContactsSearch = () => {
   const [inputName, setInputName] = useState("");
   const [showAll, setShowAll] = useState(false);
   const allContacts = useAppSelector(selectAllContacts);
   let foundContacts: Contact[] = [];
+
   for (let firstLetter in allContacts) {
     if (showAll) {
       foundContacts = foundContacts.concat(allContacts[firstLetter]);
@@ -22,7 +24,7 @@ const ContactsSearch = () => {
 
   return (
     <>
-      <Container sx={{ display: "flex", flexFlow: "column" }}>
+      <Container className="text-field-wrapper">
         <TextField
           helperText={" "}
           label="Name"
@@ -36,7 +38,6 @@ const ContactsSearch = () => {
       </Container>
       <Button
         variant="contained"
-        sx={{ marginRight: 3 }}
         onClick={() => {
           setShowAll(true);
         }}
